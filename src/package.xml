@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Togglr</fullName>
+    <types>
+        <members>ArgumentNullException</members>
+        <members>ArgumentNullExceptionTest</members>
+        <members>FeatureToggle</members>
+        <members>FeatureToggleService</members>
+        <members>FeatureToggleServiceTest</members>
+        <members>FeatureToggleTest</members>
+        <members>TestHelper</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>FeatureToggle__mdt.Active__c</members>
+        <members>FeatureToggle__mdt.ActivationDateTime__c</members>
+        <members>FeatureToggle__mdt.DeactivationDateTime__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>FeatureToggle.TogglrActivationTestRecord</members>
+        <members>FeatureToggle.TogglrActiveTestRecord</members>
+        <members>FeatureToggle.TogglrDeactivationTestRecord</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>FeatureToggle__mdt</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>FeatureToggle__mdt-en_US</members>
+        <name>CustomObjectTranslation</name>
+    </types>
+    <types>
+        <members>FeatureToggle__mdt-Feature Toggle Layout</members>
+        <name>Layout</name>
+    </types>
+    <version>42.0</version>
+</Package>

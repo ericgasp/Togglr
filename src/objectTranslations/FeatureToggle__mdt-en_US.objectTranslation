@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Feature Toggle</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Feature Toggles</value>
+    </caseValues>
+    <fields>
+        <help><!-- The date and time that the feature will activate upon. --></help>
+        <label><!-- Activation Date Time --></label>
+        <name>ActivationDateTime__c</name>
+    </fields>
+    <fields>
+        <help><!-- When this checkbox is checked the feature will be active. --></help>
+        <label><!-- Active --></label>
+        <name>Active__c</name>
+    </fields>
+    <fields>
+        <help><!-- The date and time that the feature will deactivate upon. --></help>
+        <label><!-- Deactivation Date Time --></label>
+        <name>DeactivationDateTime__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>
