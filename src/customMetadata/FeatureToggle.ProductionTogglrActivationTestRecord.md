@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Togglr Active Test Record</label>
+    <label>Production Togglr Activation Test Record</label>
     <protected>false</protected>
     <values>
         <field>ActivationDateTime__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:dateTime">2018-03-25T12:00:00.000Z</value>
     </values>
     <values>
         <field>Active__c</field>
@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>OrgDefinition__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ProductionTestRecord</value>
     </values>
 </CustomMetadata>

@@ -1,5 +1,11 @@
 <h1>Togglr</h1>
 <h4>A Salesforce Feature Toggle Framework</h4>
+<div>
+    <a href="https://githubsfdeploy.herokuapp.com">
+      <img alt="Deploy to Salesforce"
+           src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+    </a>
+</div>
 <h5>Abstract</h5>
 <div>
     You can utilize the custom metadata object FeatureToggle__mdt to set for:

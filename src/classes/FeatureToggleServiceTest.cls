@@ -7,7 +7,8 @@ private class FeatureToggleServiceTest {
                                                          DeactivationDateTime__c,
                                                          DeveloperName,
                                                          Id,
-                                                         Label
+                                                         Label,
+                                                         OrgDefinition__r.OrgId__c
                                                     FROM FeatureToggle__mdt
                                                    WHERE Label = 'Togglr Active Test Record'
                                                    LIMIT 1];
@@ -21,7 +22,8 @@ private class FeatureToggleServiceTest {
                                                          DeactivationDateTime__c,
                                                          DeveloperName,
                                                          Id,
-                                                         Label
+                                                         Label,
+                                                         OrgDefinition__r.OrgId__c
                                                     FROM FeatureToggle__mdt
                                                    WHERE Label = 'Togglr Deactivation Test Record'
                                                    LIMIT 1];

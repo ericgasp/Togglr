@@ -31,6 +31,18 @@
         <required>false</required>
         <type>DateTime</type>
     </fields>
+    <fields>
+        <fullName>OrgDefinition__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Org Definition</label>
+        <referenceTo>OrgDefinition__mdt</referenceTo>
+        <relationshipLabel>Feature Toggles</relationshipLabel>
+        <relationshipName>FeatureToggles</relationshipName>
+        <required>false</required>
+        <type>MetadataRelationship</type>
+        <unique>false</unique>
+    </fields>
     <label>Feature Toggle</label>
     <pluralLabel>Feature Toggles</pluralLabel>
     <visibility>Public</visibility>

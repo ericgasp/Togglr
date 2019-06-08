@@ -1,3 +1,11 @@
 IlluminatedCloud/
 .idea/
 *.iml
+src/sharingRules
+src/communities
+src/duplicateRules
+src/matchingRules
+src/escalationRules
+src/cleanDataServices
+src/autoResponseRules
+src/assignmentRules

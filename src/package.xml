@@ -15,6 +15,8 @@
         <members>FeatureToggle__mdt.Active__c</members>
         <members>FeatureToggle__mdt.ActivationDateTime__c</members>
         <members>FeatureToggle__mdt.DeactivationDateTime__c</members>
+        <members>FeatureToggle__mdt.OrgDefinition__c</members>
+        <members>OrgDefinition__mdt.OrgId__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -25,15 +27,18 @@
     </types>
     <types>
         <members>FeatureToggle__mdt</members>
+        <members>OrgDefinition__mdt</members>
         <name>CustomObject</name>
     </types>
     <types>
         <members>FeatureToggle__mdt-en_US</members>
+        <members>OrgDefinition__mdt-en US</members>
         <name>CustomObjectTranslation</name>
     </types>
     <types>
         <members>FeatureToggle__mdt-Feature Toggle Layout</members>
+        <members>OrgDefinition__mdt-Org Definition Layout</members>
         <name>Layout</name>
     </types>
-    <version>42.0</version>
+    <version>45.0</version>
 </Package>

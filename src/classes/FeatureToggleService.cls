@@ -3,27 +3,59 @@
  */
 public with sharing class FeatureToggleService {
     /**
-     * @description Queries for and caches the FeatureToggle__mdt records.
+     * @description Queries for and caches all of the FeatureToggle__mdt records.
      */
     public static List<FeatureToggle> FeatureToggles {
         get {
             if (FeatureToggles == null) {
-                FeatureToggles = new List<FeatureToggle>();
-                List<FeatureToggle__mdt> featureToggleRecords =
-                        [SELECT
-                                ActivationDateTime__c,
-                                Active__c,
-                                DeactivationDateTime__c,
-                                DeveloperName,
-                                Id,
-                                Label
-                           FROM FeatureToggle__mdt];
-
-                for (FeatureToggle__mdt featureToggleRecord : featureToggleRecords) {
-                    FeatureToggles.add(new FeatureToggle(featureToggleRecord));
-                }
+                populateToggleProperties();
             }
+
             return FeatureToggles;
+        }
+        private set;
+    }
+
+    /**
+     * @description Queries for and caches all of the FeatureToggle__mdt records
+     *              sorted by their label.
+     */
+    public static Map<String, FeatureToggle> FeatureTogglesByLabel {
+        get {
+            if (FeatureTogglesByLabel == null) {
+                populateToggleProperties();
+            }
+
+            return FeatureTogglesByLabel;
+        }
+        private set;
+    }
+
+    /**
+     * @description Queries for and caches all of the FeatureToggle__mdt records
+     *              for the current org, sorted by their label.
+     */
+    public static Map<String, FeatureToggle> OrgFeatureTogglesByLabel {
+        get {
+            if (OrgFeatureTogglesByLabel == null) {
+                populateToggleProperties();
+            }
+
+            return OrgFeatureTogglesByLabel;
+        }
+        private set;
+    }
+
+    /**
+     * @description Queries for and caches all of the FeatureToggle__mdt records
+     *              that are global, sorted by their label.
+     */
+    public static Map<String, FeatureToggle> GlobalFeatureTogglesByLabel {
+        get {
+            if (GlobalFeatureTogglesByLabel == null) {
+                populateToggleProperties();
+            }
+            return GlobalFeatureTogglesByLabel;
         }
         private set;
     }
@@ -38,11 +70,18 @@ public with sharing class FeatureToggleService {
         // If the requested label is blank, return null
         if (String.isBlank(featureToggleLabel)) return null;
 
-        for (FeatureToggle featureToggle : FeatureToggles) {
-            if (featureToggle.Label == featureToggleLabel) return featureToggle;
+        FeatureToggle featureToggle;
+
+        // Default to using org defined toggles first
+        if (OrgFeatureTogglesByLabel.get(featureToggleLabel) != null) {
+            featureToggle = OrgFeatureTogglesByLabel.get(featureToggleLabel);
+        } else if (GlobalFeatureTogglesByLabel.get(featureToggleLabel) != null) {
+            featureToggle = GlobalFeatureTogglesByLabel.get(featureToggleLabel);
+        } else if (FeatureTogglesByLabel.get(featureToggleLabel) != null) {
+            featureToggle = FeatureTogglesByLabel.get(featureToggleLabel);
         }
 
-        return null;
+        return featureToggle;
     }
 
     /**
@@ -58,12 +97,48 @@ public with sharing class FeatureToggleService {
     public static Boolean isFeatureActive(String featureToggleLabel) {
         if (String.isBlank(featureToggleLabel)) return true;
 
-        for (FeatureToggle featureToggle : FeatureToggles) {
-            if (featureToggle.Label == featureToggleLabel) {
-                return featureToggle.IsActive;
-            }
+        // Instead of sifting through the collections again here, just use the getter method
+        FeatureToggle featureToggle = getFeatureToggleByLabel(featureToggleLabel);
+        if (featureToggle != null) {
+            return featureToggle.IsActive;
         }
 
+        // If the feature toggle isn't found, just default to true
         return true;
+    }
+
+    private static void populateToggleProperties() {
+        FeatureToggles = new List<FeatureToggle>();
+        FeatureTogglesByLabel = new Map<String, FeatureToggle>();
+        GlobalFeatureTogglesByLabel = new Map<String, FeatureToggle>();
+        OrgFeatureTogglesByLabel = new Map<String, FeatureToggle>();
+
+        List<FeatureToggle__mdt> featureToggleRecords = [SELECT
+                                                                Active__c,
+                                                                ActivationDateTime__c,
+                                                                DeactivationDateTime__c,
+                                                                DeveloperName,
+                                                                Id,
+                                                                Label,
+                                                                OrgDefinition__r.OrgId__c
+                                                           FROM FeatureToggle__mdt];
+
+        sortFeatureToggles(featureToggleRecords);
+    }
+
+    private static void sortFeatureToggles(List<FeatureToggle__mdt> featureToggleRecords) {
+        for (FeatureToggle__mdt featureToggleRecord : featureToggleRecords) {
+            FeatureToggle featureToggle = new FeatureToggle(featureToggleRecord);
+
+            // Add it to the FeatureToggles Property
+            FeatureToggles.add(featureToggle);
+            FeatureTogglesByLabel.put(featureToggle.Label, featureToggle);
+
+            if (featureToggle.IsGlobal) {
+                GlobalFeatureTogglesByLabel.put(featureToggle.Label, featureToggle);
+            } else if (featureToggle.IsForCurrentOrg) {
+                OrgFeatureTogglesByLabel.put(featureToggle.Label, featureToggle);
+            }
+        }
     }
 }
