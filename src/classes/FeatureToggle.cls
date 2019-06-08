@@ -14,22 +14,36 @@ public with sharing class FeatureToggle {
     @AuraEnabled
     public Boolean IsActive {
         get {
-            // TODO: Fix the logic that determines if it is active or not based on org definitions
-            // TODO: Ideally we will make it so the definition on this record overrides the org -
-            // TODO: defintion
-            /*
             // Return early if either the record is null or the active flag is false/null.
             if (this.record == null || this.record.Active__c != true) return false;
 
-            // Determine whether the activation and deactivation timeframes have been met.
+            // Determine whether the activation and deactivation time frames have been met.
             Datetime today = System.now();
             Boolean active = true;
+            active &= (IsGlobal || IsForCurrentOrg);
             active &= (ActivationDateTime == null) ? true : (today >= ActivationDateTime);
             active &= (DeactivationDateTime == null) ? true : (today <= DeactivationDateTime);
 
             return active;
-            */
-            return true;
+        }
+    }
+
+    /**
+     * @description Returns true if this feature toggle is globally assigned, else false.
+     *              Globally assigned refers to the OrgDefinition__c field not being set.
+     */
+    public Boolean IsGlobal {
+        get {
+            return !hasOrgDefinition();
+        }
+    }
+
+    /**
+     * @description Returns true if the Org Id is set and it matches the current Org's Id.
+     */
+    public Boolean IsForCurrentOrg {
+        get {
+            return (OrgId != null && UserInfo.getOrganizationId().equalsIgnoreCase(OrgId));
         }
     }
 
@@ -47,17 +61,27 @@ public with sharing class FeatureToggle {
     }
 
     /**
+     * @description The Org Id defined on the related OrgDefinition__mdt record.
+     */
+    @AuraEnabled
+    public Id OrgId {
+        get {
+            if (hasOrgDefinition()) {
+                return (Id) this.record.OrgDefinition__r.OrgId__c;
+            }
+            return null;
+        }
+    }
+
+    /**
      * @description The ActivationDateTime__c of the stored FeatureToggle__mdt record.
      */
     @AuraEnabled
     public Datetime ActivationDateTime {
         get {
-            // TODO: Fix the logic that determines the activation date time, flowing from this record to
-            // TODO: the org definition record if this is null.
-            /*
             if (this.record != null) {
                 return this.record.ActivationDateTime__c;
-            }*/
+            }
             return null;
         }
     }
@@ -68,12 +92,9 @@ public with sharing class FeatureToggle {
     @AuraEnabled
     public Datetime DeactivationDateTime {
         get {
-            // TODO: Fix the logic that determines the de-activation date time, flowing from this record to
-            // TODO: the org definition record if this is null.
-            /*
             if (this.record != null) {
                 return this.record.DeactivationDateTime__c;
-            }*/
+            }
             return null;
         }
     }
@@ -88,5 +109,11 @@ public with sharing class FeatureToggle {
         ArgumentNullException.throwIfNull(featureToggle, FEATURE_TOGGLE_PARAM);
 
         this.record = featureToggle;
+    }
+
+    private Boolean hasOrgDefinition() {
+        return (this.record.OrgDefinition__c != null &&
+                this.record.OrgDefinition__r.OrgId__c != null &&
+                this.record.OrgDefinition__r.OrgId__c instanceof Id);
     }
 }

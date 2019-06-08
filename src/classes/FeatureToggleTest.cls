@@ -2,12 +2,13 @@
 private class FeatureToggleTest {
     private static FeatureToggle__mdt getActiveFeatureToggleTestRecord() {
         FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         //ActivationDateTime__c,
-                                                         //Active__c,
-                                                         //DeactivationDateTime__c,
+                                                         ActivationDateTime__c,
+                                                         Active__c,
+                                                         DeactivationDateTime__c,
                                                          DeveloperName,
                                                          Id,
-                                                         Label
+                                                         Label,
+                                                         OrgDefinition__r.OrgId__c
                                                     FROM FeatureToggle__mdt
                                                    WHERE Label = 'Togglr Active Test Record'
                                                    LIMIT 1];
@@ -16,12 +17,13 @@ private class FeatureToggleTest {
 
     private static FeatureToggle__mdt getActivationFeatureToggleTestRecord() {
         FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         //ActivationDateTime__c,
-                                                         //Active__c,
-                                                         //DeactivationDateTime__c,
+                                                         ActivationDateTime__c,
+                                                         Active__c,
+                                                         DeactivationDateTime__c,
                                                          DeveloperName,
                                                          Id,
-                                                         Label
+                                                         Label,
+                                                         OrgDefinition__r.OrgId__c
                                                     FROM FeatureToggle__mdt
                                                    WHERE Label = 'Togglr Activation Test Record'
                                                    LIMIT 1];
@@ -30,12 +32,13 @@ private class FeatureToggleTest {
 
     private static FeatureToggle__mdt getDeactiveFeatureToggleTestRecord() {
         FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         //ActivationDateTime__c,
-                                                         //Active__c,
-                                                         //DeactivationDateTime__c,
+                                                         ActivationDateTime__c,
+                                                         Active__c,
+                                                         DeactivationDateTime__c,
                                                          DeveloperName,
                                                          Id,
-                                                         Label
+                                                         Label,
+                                                         OrgDefinition__r.OrgId__c
                                                     FROM FeatureToggle__mdt
                                                    WHERE Label = 'Togglr Deactivation Test Record'
                                                    LIMIT 1];
