@@ -11,6 +11,7 @@ public class FeatureToggle {
      *              field is set to true. Explicitly check for true, as null
      *              does not resolve to false.
      */
+    @AuraEnabled
     public Boolean IsActive {
         get {
             // Return early if either the record is null or the active flag is false/null.
@@ -29,6 +30,7 @@ public class FeatureToggle {
     /**
      * @description The label of the stored FeatureToggle__mdt record.
      */
+    @AuraEnabled
     public String Label {
         get {
             if (this.record != null && !String.isBlank(this.record.Label)) {
@@ -41,6 +43,7 @@ public class FeatureToggle {
     /**
      * @description The ActivationDateTime__c of the stored FeatureToggle__mdt record.
      */
+    @AuraEnabled
     public Datetime ActivationDateTime {
         get {
             if (this.record != null) {
@@ -53,6 +56,7 @@ public class FeatureToggle {
     /**
      * @description The ActivationDateTime__c of the stored FeatureToggle__mdt record.
      */
+    @AuraEnabled
     public Datetime DeactivationDateTime {
         get {
             if (this.record != null) {
