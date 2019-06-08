@@ -2,9 +2,9 @@
 private class FeatureToggleServiceTest {
     private static FeatureToggle__mdt getActiveFeatureToggleTestRecord() {
         FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         ActivationDateTime__c,
-                                                         Active__c,
-                                                         DeactivationDateTime__c,
+                                                         //ActivationDateTime__c,
+                                                         //Active__c,
+                                                         //DeactivationDateTime__c,
                                                          DeveloperName,
                                                          Id,
                                                          Label
@@ -16,9 +16,9 @@ private class FeatureToggleServiceTest {
 
     private static FeatureToggle__mdt getDeactiveFeatureToggleTestRecord() {
         FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         ActivationDateTime__c,
-                                                         Active__c,
-                                                         DeactivationDateTime__c,
+                                                         //ActivationDateTime__c,
+                                                         //Active__c,
+                                                         //DeactivationDateTime__c,
                                                          DeveloperName,
                                                          Id,
                                                          Label

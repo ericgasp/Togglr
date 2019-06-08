@@ -11,9 +11,6 @@ public with sharing class FeatureToggleService {
                 FeatureToggles = new List<FeatureToggle>();
                 List<FeatureToggle__mdt> featureToggleRecords =
                         [SELECT
-                                ActivationDateTime__c,
-                                Active__c,
-                                DeactivationDateTime__c,
                                 DeveloperName,
                                 Id,
                                 Label

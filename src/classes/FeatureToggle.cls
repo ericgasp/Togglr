@@ -1,7 +1,7 @@
 /**
  * @description Apex wrapper for the FeatureToggle__mdt SObject.
  */
-public class FeatureToggle {
+public with sharing class FeatureToggle {
     @testVisible private static final String FEATURE_TOGGLE_PARAM = 'featureToggle';
 
     @testVisible private FeatureToggle__mdt record;
@@ -14,6 +14,10 @@ public class FeatureToggle {
     @AuraEnabled
     public Boolean IsActive {
         get {
+            // TODO: Fix the logic that determines if it is active or not based on org definitions
+            // TODO: Ideally we will make it so the definition on this record overrides the org -
+            // TODO: defintion
+            /*
             // Return early if either the record is null or the active flag is false/null.
             if (this.record == null || this.record.Active__c != true) return false;
 
@@ -24,6 +28,8 @@ public class FeatureToggle {
             active &= (DeactivationDateTime == null) ? true : (today <= DeactivationDateTime);
 
             return active;
+            */
+            return true;
         }
     }
 
@@ -46,9 +52,12 @@ public class FeatureToggle {
     @AuraEnabled
     public Datetime ActivationDateTime {
         get {
+            // TODO: Fix the logic that determines the activation date time, flowing from this record to
+            // TODO: the org definition record if this is null.
+            /*
             if (this.record != null) {
                 return this.record.ActivationDateTime__c;
-            }
+            }*/
             return null;
         }
     }
@@ -59,9 +68,12 @@ public class FeatureToggle {
     @AuraEnabled
     public Datetime DeactivationDateTime {
         get {
+            // TODO: Fix the logic that determines the de-activation date time, flowing from this record to
+            // TODO: the org definition record if this is null.
+            /*
             if (this.record != null) {
                 return this.record.DeactivationDateTime__c;
-            }
+            }*/
             return null;
         }
     }
