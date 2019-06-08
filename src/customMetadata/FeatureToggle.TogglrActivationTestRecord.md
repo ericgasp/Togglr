@@ -14,4 +14,8 @@
         <field>DeactivationDateTime__c</field>
         <value xsi:nil="true"/>
     </values>
+    <values>
+        <field>OrgDefinition__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>

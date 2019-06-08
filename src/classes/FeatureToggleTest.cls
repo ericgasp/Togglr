@@ -1,50 +1,5 @@
 @isTest
 private class FeatureToggleTest {
-    private static FeatureToggle__mdt getActiveFeatureToggleTestRecord() {
-        FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         ActivationDateTime__c,
-                                                         Active__c,
-                                                         DeactivationDateTime__c,
-                                                         DeveloperName,
-                                                         Id,
-                                                         Label,
-                                                         OrgDefinition__r.OrgId__c
-                                                    FROM FeatureToggle__mdt
-                                                   WHERE Label = 'Togglr Active Test Record'
-                                                   LIMIT 1];
-        return featureToggleRecord;
-    }
-
-    private static FeatureToggle__mdt getActivationFeatureToggleTestRecord() {
-        FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         ActivationDateTime__c,
-                                                         Active__c,
-                                                         DeactivationDateTime__c,
-                                                         DeveloperName,
-                                                         Id,
-                                                         Label,
-                                                         OrgDefinition__r.OrgId__c
-                                                    FROM FeatureToggle__mdt
-                                                   WHERE Label = 'Togglr Activation Test Record'
-                                                   LIMIT 1];
-        return featureToggleRecord;
-    }
-
-    private static FeatureToggle__mdt getDeactiveFeatureToggleTestRecord() {
-        FeatureToggle__mdt featureToggleRecord = [SELECT
-                                                         ActivationDateTime__c,
-                                                         Active__c,
-                                                         DeactivationDateTime__c,
-                                                         DeveloperName,
-                                                         Id,
-                                                         Label,
-                                                         OrgDefinition__r.OrgId__c
-                                                    FROM FeatureToggle__mdt
-                                                   WHERE Label = 'Togglr Deactivation Test Record'
-                                                   LIMIT 1];
-        return featureToggleRecord;
-    }
-
     @isTest
     private static void constructor_nullRecord_expectArgumentNullException() {
         try {
@@ -61,7 +16,7 @@ private class FeatureToggleTest {
 
     @isTest
     private static void constructor_recordProvided_expectRecordStored() {
-        FeatureToggle__mdt featureToggleRecord = getActiveFeatureToggleTestRecord();
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getActiveFeatureToggleTestRecord();
 
         if (featureToggleRecord == null) {
             System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
@@ -79,7 +34,7 @@ private class FeatureToggleTest {
 
     @isTest
     private static void label_expectLabelMatchesRecord() {
-        FeatureToggle__mdt featureToggleRecord = getActiveFeatureToggleTestRecord();
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getActiveFeatureToggleTestRecord();
 
         if (featureToggleRecord == null) {
             System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
@@ -98,7 +53,7 @@ private class FeatureToggleTest {
 
     @isTest
     private static void isActive_activeTrue_expectActive() {
-        FeatureToggle__mdt featureToggleRecord = getActiveFeatureToggleTestRecord();
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getActiveFeatureToggleTestRecord();
 
         if (featureToggleRecord == null) {
             System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
@@ -116,7 +71,7 @@ private class FeatureToggleTest {
 
     @isTest
     private static void isActive_activationDateExceeded_expectActive() {
-        FeatureToggle__mdt featureToggleRecord = getActivationFeatureToggleTestRecord();
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getActivationFeatureToggleTestRecord();
 
         if (featureToggleRecord == null) {
             System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
@@ -134,7 +89,7 @@ private class FeatureToggleTest {
 
     @isTest
     private static void isActive_deactivationDateExceeded_expectInactive() {
-        FeatureToggle__mdt featureToggleRecord = getDeactiveFeatureToggleTestRecord();
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getInactiveFeatureToggleTestRecord();
 
         if (featureToggleRecord == null) {
             System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
@@ -148,5 +103,83 @@ private class FeatureToggleTest {
         Test.stopTest();
 
         System.assert(!isActive, 'Expected the feature toggle to be inactive.');
+    }
+
+    @isTest
+    private static void isGlobal_nullOrgId_expectTrue() {
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getActivationFeatureToggleTestRecord();
+
+        if (featureToggleRecord == null) {
+            System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
+            return;
+        }
+
+        FeatureToggle featureToggle = new FeatureToggle(featureToggleRecord);
+
+        Test.startTest();
+        Boolean isGlobal = featureToggle.IsGlobal;
+        Test.stopTest();
+
+        System.assert(isGlobal, 'Expected the feature toggle to be globally assigned.');
+    }
+
+    @isTest
+    private static void isGlobal_orgIdSet_expectFalse() {
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getProductionActivationFeatureToggleTestRecord();
+
+        if (featureToggleRecord == null) {
+            System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
+            return;
+        }
+
+        FeatureToggle featureToggle = new FeatureToggle(featureToggleRecord);
+
+        Test.startTest();
+        Boolean isGlobal = featureToggle.IsGlobal;
+        Test.stopTest();
+
+        System.assert(!isGlobal, 'Expected the feature toggle to be org specific.');
+    }
+
+    @isTest
+    private static void isForCurrentOrg_orgIdDoesNotMatch_expectFalse() {
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getProductionActivationFeatureToggleTestRecord();
+
+        if (featureToggleRecord == null) {
+            System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
+            return;
+        }
+
+        // To ensure that the Org Id doesn't match, manipulate it
+        featureToggleRecord.OrgDefinition__r.OrgId__c = UserInfo.getOrganizationId().substring(0,12) + '000111';
+
+        FeatureToggle featureToggle = new FeatureToggle(featureToggleRecord);
+
+        Test.startTest();
+        Boolean isForCurrentOrg = featureToggle.IsForCurrentOrg;
+        Test.stopTest();
+
+        System.assert(!isForCurrentOrg, 'Expected the feature toggle to not be for the current org.');
+    }
+
+    @isTest
+    private static void isForCurrentOrg_orgIdMatches_expectTrue() {
+        FeatureToggle__mdt featureToggleRecord = FeatureToggleTestHelper.getProductionActivationFeatureToggleTestRecord();
+
+        if (featureToggleRecord == null) {
+            System.assert(true, 'An admin in the containing org has deleted the test records. Assert true and exit.');
+            return;
+        }
+
+        // To ensure that the Org Id matches, manipulate it
+        featureToggleRecord.OrgDefinition__r.OrgId__c = UserInfo.getOrganizationId();
+
+        FeatureToggle featureToggle = new FeatureToggle(featureToggleRecord);
+
+        Test.startTest();
+        Boolean isForCurrentOrg = featureToggle.IsForCurrentOrg;
+        Test.stopTest();
+
+        System.assert(isForCurrentOrg, 'Expected the feature toggle to be for the current org.');
     }
 }

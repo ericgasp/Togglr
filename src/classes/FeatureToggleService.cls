@@ -114,6 +114,9 @@ public with sharing class FeatureToggleService {
         OrgFeatureTogglesByLabel = new Map<String, FeatureToggle>();
 
         List<FeatureToggle__mdt> featureToggleRecords = [SELECT
+                                                                Active__c,
+                                                                ActivationDateTime__c,
+                                                                DeactivationDateTime__c,
                                                                 DeveloperName,
                                                                 Id,
                                                                 Label,

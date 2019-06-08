@@ -14,4 +14,8 @@
         <field>DeactivationDateTime__c</field>
         <value xsi:type="xsd:dateTime">2018-03-25T12:00:00.000Z</value>
     </values>
+    <values>
+        <field>OrgDefinition__c</field>
+        <value xsi:nil="true"/>
+    </values>
 </CustomMetadata>
