@@ -32,11 +32,6 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>FeatureToggle__mdt-en_US</members>
-        <members>OrgDefinition__mdt-en US</members>
-        <name>CustomObjectTranslation</name>
-    </types>
-    <types>
         <members>FeatureToggle__mdt-Feature Toggle Layout</members>
         <members>OrgDefinition__mdt-Org Definition Layout</members>
         <name>Layout</name>
