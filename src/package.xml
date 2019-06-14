@@ -9,6 +9,7 @@
         <members>FeatureToggleServiceTest</members>
         <members>FeatureToggleTest</members>
         <members>TestHelper</members>
+        <members>FeatureToggleTestHelper</members>
         <name>ApexClass</name>
     </types>
     <types>
